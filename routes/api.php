@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Person\StoreController;
+use App\Http\Controllers\Person\IndexController;
 
 /*
  * API маршрути
@@ -19,5 +20,6 @@ Route::get('/example', function () {
 
 Route::prefix('people')->group(function () {
     Route::post('/', StoreController::class);
+    Route::get('/', IndexController::class);
 });
 

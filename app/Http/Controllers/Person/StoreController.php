@@ -17,7 +17,5 @@ class StoreController extends Controller
         return $person;
         //return response()->json($data);
     }
-
-
 }
 
