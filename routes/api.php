@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\Person\StoreController;
+
 /*
  * API маршрути
  *
@@ -14,3 +16,8 @@ Route::get('/example', function () {
         'message' => 'Hello from the API!',
     ]);
 });
+
+Route::prefix('people')->group(function () {
+    Route::post('/', StoreController::class);
+});
+
