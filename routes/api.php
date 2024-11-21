@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Person\StoreController;
 use App\Http\Controllers\Person\IndexController;
+use App\Http\Controllers\Person\UpdateController;
 
 /*
  * API маршрути
@@ -21,5 +22,6 @@ Route::get('/example', function () {
 Route::prefix('people')->group(function () {
     Route::post('/', StoreController::class);
     Route::get('/', IndexController::class);
+    Route::patch('/{person}', UpdateController::class);
 });
 

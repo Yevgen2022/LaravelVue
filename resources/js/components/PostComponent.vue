@@ -1,5 +1,5 @@
 <template>
-    <div class="ms-5 me-5 mt-3 w-25">
+    <div class="ms-5 me-5 mt-3 w-75">
         <CreateComponent></CreateComponent>
         <IndexComponent></IndexComponent>
 
@@ -13,7 +13,11 @@ import CreateComponent from "./CreateComponent.vue";
 import IndexComponent from "./IndexComponent.vue";
 
 
+
 </script>
+
+
+
 
 
 <style scoped>
