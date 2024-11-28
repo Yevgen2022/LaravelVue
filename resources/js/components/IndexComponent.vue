@@ -140,6 +140,7 @@ defineExpose({
     indexLog,
     fromIndex,
     callCreateComponent,
+    getPeople,
     wifeName,
     forSent
 });

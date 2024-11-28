@@ -62,6 +62,17 @@ const data = ref({
 
 const message = ref('');
 
+
+
+// Оголошуємо подію
+const emit = defineEmits(['callGetPeople']);
+
+
+// Функція, яка ініціює виклик
+const triggerGetPeople = () => {
+    emit("callGetPeople");
+}
+
 const addPerson = async () => {
     try {
         const response = await axios.post('http://localhost:8000/api/people', {
@@ -91,14 +102,14 @@ onMounted(() => {
 })
 
 
-// Оголошуємо подію
-const emit = defineEmits(['callGetPeople']);
-
-
-// Функція, яка ініціює виклик
-const triggerGetPeople = () => {
-    emit("callGetPeople");
-}
+// // Оголошуємо подію
+// const emit = defineEmits(['callGetPeople']);
+//
+//
+// // Функція, яка ініціює виклик
+// const triggerGetPeople = () => {
+//     emit("callGetPeople");
+// }
 
 
 const logMessage = () => {
@@ -107,6 +118,7 @@ const logMessage = () => {
 
 defineExpose({
     logMessage,
+    triggerGetPeople
 });
 
 

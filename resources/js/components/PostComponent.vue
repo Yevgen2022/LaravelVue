@@ -45,13 +45,13 @@ const callCreateComponentMethod = async () => {
 
 
 const callGetPeople = () => {
-    nextTick(() => {
-        if (index.value) {
-            index.value.getPeople();
-        } else {
-            console.error('IndexComponent is not available');
-        }
-    });
+    console.log("callGetPeople triggered");
+    if (index.value) {
+        console.log("IndexComponent available, calling getPeople");
+        index.value.getPeople(); // Викликаємо метод getPeople в IndexComponent
+    } else {
+        console.error('IndexComponent is not available');
+    }
 };
 
 
