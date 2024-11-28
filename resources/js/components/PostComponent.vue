@@ -1,8 +1,12 @@
 <template>
     <div class="ms-5 me-5 mt-3 w-75">
-        <CreateComponent ref="createComponentRef"></CreateComponent>
+        <CreateComponent ref="createComponentRef" @callGetPeople="callGetPeople"></CreateComponent>
+
         <IndexComponent ref="index" :callParentMethod="parentLog"
-                        @callCreateComponent="callCreateComponentMethod"></IndexComponent>
+                        @callCreateComponent="callCreateComponentMethod">
+
+
+        </IndexComponent>
 
     </div>
 </template>
@@ -38,6 +42,17 @@ const callCreateComponentMethod = async () => {
     }
 };
 
+
+
+const callGetPeople = () => {
+    nextTick(() => {
+        if (index.value) {
+            index.value.getPeople();
+        } else {
+            console.error('IndexComponent is not available');
+        }
+    });
+};
 
 
 

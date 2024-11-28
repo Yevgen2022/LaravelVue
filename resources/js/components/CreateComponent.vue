@@ -41,6 +41,7 @@
 
 <script setup>
 import {onMounted, reactive, ref} from 'vue';
+import {defineEmits} from "vue";
 import axios from 'axios';
 import SomeComponent from "./SomeComponent.vue";
 
@@ -80,22 +81,33 @@ const addPerson = async () => {
         console.error('Error adding person:', error);
         alert('Failed to add person. Please try again.');
     }
+    triggerGetPeople();
+
 };
 
 
-onMounted( () =>{
+onMounted(() => {
     logMessage()
 })
+
+
+// Оголошуємо подію
+const emit = defineEmits(['callGetPeople']);
+
+
+// Функція, яка ініціює виклик
+const triggerGetPeople = () => {
+    emit("callGetPeople");
+}
+
 
 const logMessage = () => {
     console.log("I am from CreateComponent");
 }
 
 defineExpose({
-logMessage,
+    logMessage,
 });
-
-
 
 
 </script>
