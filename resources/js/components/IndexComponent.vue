@@ -40,6 +40,7 @@
 <script setup>
 import {ref, onMounted} from 'vue';
 import axios from 'axios';
+import { defineProps } from 'vue';
 
 
 // Реактивний масив для зберігання даних про людей
@@ -51,6 +52,10 @@ const name = ref('');
 const age = ref(null);
 const job = ref('');
 
+const wifeName = "Halina - this props from indexComponent in parentComponent";
+const createComponentRef = ref(null);
+
+const forSent = "Between Child!";
 
 // Функція для отримання списку людей
 const getPeople = async () => {
@@ -98,6 +103,7 @@ const deletePerson = async (id) => {
 // Викликаємо getPeople при завантаженні компонента
 onMounted(() => {
     getPeople();
+    props.callParentMethod();
 });
 
 
@@ -113,6 +119,30 @@ const isEdit = (id) => {
     return editPersonId.value === id;
 }
 
+const indexLog = () => {
+    console.log("This is index component in parent component!");
+}
+
+
+const fromIndex = () => {
+    console.log("This message from IndexComponent!");
+}
+
+const callCreateComponent = () =>{
+    createComponentRef.value.logMessage();
+}
+
+const props = defineProps({
+    callParentMethod: Function,
+})
+
+defineExpose({
+    indexLog,
+    fromIndex,
+    callCreateComponent,
+    wifeName,
+    forSent
+});
 
 </script>
 

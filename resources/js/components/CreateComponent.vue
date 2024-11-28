@@ -1,45 +1,3 @@
-<!--<template>-->
-<!--    <div>-->
-<!--        <div class="mb-3">-->
-<!--            <input type="text" class="form-control" id="name" placeholder="name" v-model="state.name">-->
-<!--        </div>-->
-<!--        <div class="mb-3">-->
-<!--            <input type="number" class="form-control" id="age" placeholder="age" v-model="state.age">-->
-<!--        </div>-->
-<!--        <div class="mb-3">-->
-<!--            <input type="text" class="form-control" id="job" placeholder="job" v-model="state.job">-->
-<!--        </div>-->
-<!--        <div class="mb-3">-->
-<!--            <input class="btn btn-primary" value="Add person" @click.prevent="addPerson">-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</template>-->
-
-
-<!--<script setup>-->
-<!--import {reactive} from 'vue';-->
-
-<!--const state = reactive({-->
-<!--    name: '',-->
-<!--    age: null,-->
-<!--    job: '',-->
-<!--});-->
-
-<!--const addPerson = () => {-->
-<!--    axios.post('http://localhost:8000/api/people', {name: state.name, age: state.age, job: state.job})-->
-<!--        .then (res => {-->
-<!--            state.name = '';-->
-<!--            state.age = null;-->
-<!--            state.job = '';-->
-<!--            });-->
-<!--}-->
-<!--</script>-->
-
-
-<!--<style scoped>-->
-
-<!--</style>-->
-
 <template>
     <div>
         <div class="mb-3">
@@ -81,8 +39,10 @@
 </template>
 
 <script setup>
-import { reactive, ref } from 'vue';
+import {onMounted, reactive, ref} from 'vue';
 import axios from 'axios';
+import { defineProps } from 'vue';
+
 
 // Стан
 const state = reactive({
@@ -113,6 +73,23 @@ const addPerson = async () => {
         alert('Failed to add person. Please try again.');
     }
 };
+
+
+onMounted( () =>{
+    logMessage()
+})
+
+const logMessage = () => {
+    console.log("I am from CreateComponent");
+}
+
+defineExpose({
+logMessage,
+});
+
+
+
+
 </script>
 
 <style scoped>
