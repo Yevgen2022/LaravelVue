@@ -8,6 +8,7 @@
                 <th scope="col">Age</th>
                 <th scope="col">Job</th>
                 <th scope="col">Edit</th>
+                <th scope="col">Delete</th>
             </tr>
             </thead>
             <tbody>
@@ -18,8 +19,8 @@
                     <td>{{ person.name }}</td>
                     <td>{{ person.age }}</td>
                     <td>{{ person.job }}</td>
-                    <td><a href="#" @click.prevent="changeEditPersonId(person.id,person.name, person.age, person.job)"
-                           class="btn btn-success">Edit</a></td>
+                    <td><a href="#" @click.prevent="changeEditPersonId(person.id,person.name, person.age, person.job)" class="btn btn-success">Edit</a></td>
+                    <td><a href="#" @click.prevent="deletePerson(person.id)" class="btn btn-danger">Delete</a></td>
                 </tr>
                 <tr :class="{ 'd-none': person.id !== editPersonId }">
                     <!--                <tr :class="isEdit(person.id) ? '' : 'd-none'">-->
@@ -73,6 +74,19 @@ const updatePerson = async (id) => {
             job: job.value
         });
 
+        await getPeople();
+
+    } catch (error) {
+        console.error('Error updating person:', error); // Лог помилки, якщо запит не вдалий
+    }
+}
+
+const deletePerson = async (id) => {
+    try {
+        console.log({name: name.value, age: age.value, job: job.value});
+
+        // Використовуємо await замість .then() для асинхронного виклику
+        const response = await axios.delete(`http://localhost:8000/api/people/${id}`);
         await getPeople();
 
     } catch (error) {
