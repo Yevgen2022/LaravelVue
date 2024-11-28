@@ -35,13 +35,14 @@
             />
         </div>
         <div v-if="message" class="alert alert-success mt-3">{{ message }}</div>
+        <SomeComponent :data="data"></SomeComponent>
     </div>
 </template>
 
 <script setup>
 import {onMounted, reactive, ref} from 'vue';
 import axios from 'axios';
-import { defineProps } from 'vue';
+import SomeComponent from "./SomeComponent.vue";
 
 
 // Стан
@@ -50,6 +51,13 @@ const state = reactive({
     age: null,
     job: '',
 });
+
+
+const data = ref({
+    color: "blue",
+    number: 42,
+    isPublished: true,
+})
 
 const message = ref('');
 

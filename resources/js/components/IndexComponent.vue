@@ -143,7 +143,6 @@ defineExpose({
     wifeName,
     forSent
 });
-
 </script>
 
 <style scoped>

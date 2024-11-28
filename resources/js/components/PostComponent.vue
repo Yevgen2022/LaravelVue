@@ -16,6 +16,7 @@ import IndexComponent from "./IndexComponent.vue";
 import {ref, onMounted} from "vue";
 import {nextTick} from "vue";
 
+
 const index = ref(null);
 const createComponentRef = ref(null);
 
