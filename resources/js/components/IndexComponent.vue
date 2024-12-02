@@ -16,19 +16,19 @@
 
                 <tr :class="{ 'd-none': editPersonId == person.id }">
                     <th scope="row">{{ person.id }}</th>
+
                     <td>{{ person.name }}</td>
                     <td>{{ person.age }}</td>
                     <td>{{ person.job }}</td>
-                    <td><a href="#" @click.prevent="changeEditPersonId(person.id,person.name, person.age, person.job)" class="btn btn-success">Edit</a></td>
+                    <td><a href="#" @click.prevent="changeEditPersonId(person.id,person.name, person.age, person.job)"
+                           class="btn btn-success">Edit</a></td>
                     <td><a href="#" @click.prevent="deletePerson(person.id)" class="btn btn-danger">Delete</a></td>
                 </tr>
-                <tr :class="{ 'd-none': person.id !== editPersonId }">
-                    <th scope="row">{{ person.id }}</th>
-                    <td><input type="text" v-model="name" class="form-control"></td>
-                    <td><input type="number" v-model="age" class="form-control"></td>
-                    <td><input type="text" v-model="job" class="form-control"></td>
-                    <td><a href="#" @click.prevent="updatePerson(person.id)" class="btn btn-success">Update</a></td>
-                </tr>
+                <EditComponent
+                    :edit-person-id="editPersonId"
+                    :person="person"
+                    @get-people="getPeople"
+                ></EditComponent>
             </template>
 
             </tbody>
@@ -39,14 +39,13 @@
 <script setup>
 import {ref, onMounted} from 'vue';
 import axios from 'axios';
-import { defineProps } from 'vue';
+import {defineProps} from 'vue';
+import EditComponent from "./EditComponent.vue";
 
 
 // Реактивний масив для зберігання даних про людей
 const people = ref([]);
-
 const editPersonId = ref(null);
-
 const name = ref('');
 const age = ref(null);
 const job = ref('');
@@ -58,29 +57,11 @@ const getPeople = async () => {
     try {
         const response = await axios.get('http://localhost:8000/api/people');
         people.value = response.data; // Збереження даних у реактивний масив
+      //  console.log('People updated:', people.value);  // Перевірка оновленого масиву
     } catch (error) {
         console.error('Error fetching people:', error);
     }
 };
-
-const updatePerson = async (id) => {
-    editPersonId.value = null;
-    try {
-        console.log({name: name.value, age: age.value, job: job.value});
-
-        // Використовуємо await замість .then() для асинхронного виклику
-        const response = await axios.patch(`http://localhost:8000/api/people/${id}`, {
-            name: name.value,
-            age: age.value,
-            job: job.value
-        });
-
-        await getPeople();
-
-    } catch (error) {
-        console.error('Error updating person:', error); // Лог помилки, якщо запит не вдалий
-    }
-}
 
 const deletePerson = async (id) => {
     try {
@@ -115,13 +96,11 @@ const isEdit = (id) => {
 }
 
 
-const callCreateComponent = () =>{
+const callCreateComponent = () => {
     createComponentRef.value.logMessage();
 }
 
-const props = defineProps({
-
-})
+const props = defineProps({})
 
 defineExpose({
 

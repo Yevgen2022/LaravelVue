@@ -35,7 +35,7 @@
             />
         </div>
         <div v-if="message" class="alert alert-success mt-3">{{ message }}</div>
-        <SomeComponent :data="data"></SomeComponent>
+
     </div>
 </template>
 
@@ -43,7 +43,7 @@
 import {onMounted, reactive, ref} from 'vue';
 import {defineEmits} from "vue";
 import axios from 'axios';
-import SomeComponent from "./SomeComponent.vue";
+
 
 
 // Стан
@@ -52,13 +52,6 @@ const state = reactive({
     age: null,
     job: '',
 });
-
-
-const data = ref({
-    color: "blue",
-    number: 42,
-    isPublished: true,
-})
 
 const message = ref('');
 
@@ -92,7 +85,7 @@ const addPerson = async () => {
         console.error('Error adding person:', error);
         alert('Failed to add person. Please try again.');
     }
-    triggerGetPeople();
+    triggerGetPeople();//For refresh table
 };
 
 onMounted(() => {
