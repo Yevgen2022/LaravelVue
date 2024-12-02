@@ -14,21 +14,18 @@
             <tbody>
             <template v-for="(person, index) in people" :key="person.id">
 
-                <tr :class="{ 'd-none': editPersonId == person.id }">
-                    <th scope="row">{{ person.id }}</th>
-
-                    <td>{{ person.name }}</td>
-                    <td>{{ person.age }}</td>
-                    <td>{{ person.job }}</td>
-                    <td><a href="#" @click.prevent="changeEditPersonId(person.id,person.name, person.age, person.job)"
-                           class="btn btn-success">Edit</a></td>
-                    <td><a href="#" @click.prevent="deletePerson(person.id)" class="btn btn-danger">Delete</a></td>
-                </tr>
+                <ShowComponent
+                    :edit-person-id="editPersonId"
+                    :person="person"
+                    @get-people="getPeople"
+                ></ShowComponent>
                 <EditComponent
+                    v-if="editPersonId === person.id"
                     :edit-person-id="editPersonId"
                     :person="person"
                     @get-people="getPeople"
                 ></EditComponent>
+
             </template>
 
             </tbody>
@@ -41,6 +38,7 @@ import {ref, onMounted} from 'vue';
 import axios from 'axios';
 import {defineProps} from 'vue';
 import EditComponent from "./EditComponent.vue";
+import ShowComponent from "./ShowComponent.vue";
 
 
 // Реактивний масив для зберігання даних про людей
@@ -57,24 +55,24 @@ const getPeople = async () => {
     try {
         const response = await axios.get('http://localhost:8000/api/people');
         people.value = response.data; // Збереження даних у реактивний масив
-      //  console.log('People updated:', people.value);  // Перевірка оновленого масиву
+        //  console.log('People updated:', people.value);  // Перевірка оновленого масиву
     } catch (error) {
         console.error('Error fetching people:', error);
     }
 };
 
-const deletePerson = async (id) => {
-    try {
-        console.log({name: name.value, age: age.value, job: job.value});
-
-        // Використовуємо await замість .then() для асинхронного виклику
-        const response = await axios.delete(`http://localhost:8000/api/people/${id}`);
-        await getPeople();
-
-    } catch (error) {
-        console.error('Error updating person:', error); // Лог помилки, якщо запит не вдалий
-    }
-}
+// const deletePerson = async (id) => {
+//     try {
+//         console.log({name: name.value, age: age.value, job: job.value});
+//
+//         // Використовуємо await замість .then() для асинхронного виклику
+//         const response = await axios.delete(`http://localhost:8000/api/people/${id}`);
+//         await getPeople();
+//
+//     } catch (error) {
+//         console.error('Error updating person:', error); // Лог помилки, якщо запит не вдалий
+//     }
+// }
 
 
 // Викликаємо getPeople при завантаженні компонента
@@ -83,13 +81,13 @@ onMounted(() => {
 });
 
 
-const changeEditPersonId = (id, personName, personAge, personJob) => {
-    editPersonId.value = id;
-    name.value = personName;
-    age.value = personAge;
-    job.value = personJob;
-
-};
+// const changeEditPersonId = (id, personName, personAge, personJob) => {
+//     editPersonId.value = id;
+//     name.value = personName;
+//     age.value = personAge;
+//     job.value = personJob;
+//
+// };
 
 const isEdit = (id) => {
     return editPersonId.value === id;

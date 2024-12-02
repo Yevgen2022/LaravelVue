@@ -1,6 +1,7 @@
 <template>
 
-    <tr :class="{ 'd-none': id !== props.editPersonId }">
+<!--    <tr :class="{ 'd-none': id !== props.editPersonId }">-->
+    <tr>
         <th scope="row">{{ id }}</th>
         <td><input type="text" v-model="name" class="form-control"></td>
         <td><input type="number" v-model="age" class="form-control"></td>
@@ -13,13 +14,21 @@
 
 <script setup>
 import {ref, onMounted, watch} from 'vue';
+
 import axios from 'axios';
 import {defineProps, defineEmits} from 'vue';
 
 const props = defineProps({
-    editPersonId: Number,
-    person: Object,
-})
+    editPersonId: {
+        type: [Number],
+        required: false,
+    },
+    person:{
+        type: Object,
+        required: true,
+    }
+});
+
 
 const emits = defineEmits(['get-people']);
 
@@ -42,7 +51,7 @@ const updatePerson = async (id) => {
             job: job.value
         });
 
-      //  await getPeople();
+        //  await getPeople();
         emits('get-people');
 
     } catch (error) {
@@ -64,6 +73,11 @@ watch(() => props.person, (newPerson) => {
 }, {immediate: true});
 
 </script>
+
+
+
+
+
 
 <style scoped>
 /* Додаткові стилі */
