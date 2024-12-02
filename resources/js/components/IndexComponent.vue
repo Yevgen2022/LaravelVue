@@ -23,7 +23,6 @@
                     <td><a href="#" @click.prevent="deletePerson(person.id)" class="btn btn-danger">Delete</a></td>
                 </tr>
                 <tr :class="{ 'd-none': person.id !== editPersonId }">
-                    <!--                <tr :class="isEdit(person.id) ? '' : 'd-none'">-->
                     <th scope="row">{{ person.id }}</th>
                     <td><input type="text" v-model="name" class="form-control"></td>
                     <td><input type="number" v-model="age" class="form-control"></td>
@@ -52,10 +51,7 @@ const name = ref('');
 const age = ref(null);
 const job = ref('');
 
-const wifeName = "Halina - this props from indexComponent in parentComponent";
 const createComponentRef = ref(null);
-
-const forSent = "Between Child!";
 
 // Функція для отримання списку людей
 const getPeople = async () => {
@@ -103,7 +99,6 @@ const deletePerson = async (id) => {
 // Викликаємо getPeople при завантаженні компонента
 onMounted(() => {
     getPeople();
-    props.callParentMethod();
 });
 
 
@@ -119,30 +114,20 @@ const isEdit = (id) => {
     return editPersonId.value === id;
 }
 
-const indexLog = () => {
-    console.log("This is index component in parent component!");
-}
-
-
-const fromIndex = () => {
-    console.log("This message from IndexComponent!");
-}
 
 const callCreateComponent = () =>{
     createComponentRef.value.logMessage();
 }
 
 const props = defineProps({
-    callParentMethod: Function,
+
 })
 
 defineExpose({
-    indexLog,
-    fromIndex,
+
     callCreateComponent,
     getPeople,
-    wifeName,
-    forSent
+
 });
 </script>
 

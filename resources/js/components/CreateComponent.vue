@@ -68,7 +68,7 @@ const message = ref('');
 const emit = defineEmits(['callGetPeople']);
 
 
-// Функція, яка ініціює виклик
+// Функція, яка ініціює виклик.
 const triggerGetPeople = () => {
     emit("callGetPeople");
 }
@@ -93,31 +93,13 @@ const addPerson = async () => {
         alert('Failed to add person. Please try again.');
     }
     triggerGetPeople();
-
 };
 
-
 onMounted(() => {
-    logMessage()
+
 })
 
-
-// // Оголошуємо подію
-// const emit = defineEmits(['callGetPeople']);
-//
-//
-// // Функція, яка ініціює виклик
-// const triggerGetPeople = () => {
-//     emit("callGetPeople");
-// }
-
-
-const logMessage = () => {
-    console.log("I am from CreateComponent");
-}
-
 defineExpose({
-    logMessage,
     triggerGetPeople
 });
 
