@@ -13,101 +13,86 @@
             </thead>
             <tbody>
             <template v-for="(person, index) in people" :key="person.id">
-
                 <ShowComponent
-
-                    :edit-person-id="editPersonId"
+                    v-if="person.id !== editPersonId"
                     :person="person"
-                    @get-people="getPeople"
-                ></ShowComponent>
+                    :is-editing="editPersonId === person.id"
+                    @edit="changeEditPersonId"
+                    @delete="deletePerson"
+                />
                 <EditComponent
-                    :edit-person-id="editPersonId"
+                    v-if="editPersonId === person.id"
                     :person="person"
-                    @get-people="getPeople"
-                ></EditComponent>
-
+                    @save="savePerson"
+                    @cancel="cancelEdit"
+                />
             </template>
-
             </tbody>
         </table>
     </div>
 </template>
-<!--v-if="editPersonId === person.id"-->
+
 <script setup>
-import {ref, onMounted} from 'vue';
+import { ref, onMounted } from 'vue';
 import axios from 'axios';
-import {defineProps} from 'vue';
-import EditComponent from "./EditComponent.vue";
-import ShowComponent from "./ShowComponent.vue";
+import ShowComponent from './ShowComponent.vue';
+import EditComponent from './EditComponent.vue';
 
-
-// Реактивний масив для зберігання даних про людей
 const people = ref([]);
 const editPersonId = ref(null);
-const name = ref('');
-const age = ref(null);
-const job = ref('');
 
-const createComponentRef = ref(null);
-
-// Функція для отримання списку людей
+// Завантаження списку людей
 const getPeople = async () => {
     try {
         const response = await axios.get('http://localhost:8000/api/people');
-        people.value = response.data; // Збереження даних у реактивний масив
-        //  console.log('People updated:', people.value);  // Перевірка оновленого масиву
+        people.value = response.data;
     } catch (error) {
         console.error('Error fetching people:', error);
     }
 };
 
-// const deletePerson = async (id) => {
-//     try {
-//         console.log({name: name.value, age: age.value, job: job.value});
-//
-//         // Використовуємо await замість .then() для асинхронного виклику
-//         const response = await axios.delete(`http://localhost:8000/api/people/${id}`);
-//         await getPeople();
-//
-//     } catch (error) {
-//         console.error('Error updating person:', error); // Лог помилки, якщо запит не вдалий
-//     }
-// }
+// Видалення користувача
+const deletePerson = async (id) => {
+    try {
+        await axios.delete(`http://localhost:8000/api/people/${id}`);
+        await getPeople();
+    } catch (error) {
+        console.error('Error deleting person:', error);
+    }
+};
 
+// Зміна режиму редагування
+const changeEditPersonId = (id) => {
+    editPersonId.value = id;
+};
 
-// Викликаємо getPeople при завантаженні компонента
+// Збереження змін
+const savePerson = async (updatedPerson) => {
+    try {
+        await axios.patch(`http://localhost:8000/api/people/${updatedPerson.id}`, updatedPerson);
+        await getPeople();
+        cancelEdit();
+    } catch (error) {
+        console.error('Error saving person:', error);
+    }
+};
+
+// Скасування редагування
+const cancelEdit = () => {
+    editPersonId.value = null;
+};
+
+// Завантаження даних при завантаженні компонента
 onMounted(() => {
     getPeople();
 });
 
 
-// const changeEditPersonId = (id, personName, personAge, personJob) => {
-//     editPersonId.value = id;
-//     name.value = personName;
-//     age.value = personAge;
-//     job.value = personJob;
-//
-// };
-
-const isEdit = (id) => {
-    return editPersonId.value === id;
-}
-
-
-const callCreateComponent = () => {
-    createComponentRef.value.logMessage();
-}
-
-const props = defineProps({})
-
 defineExpose({
-
-    callCreateComponent,
     getPeople,
-
-});
+})
 </script>
 
 <style scoped>
-/* Додаткові стилі */
+/* Стилі за потребою */
 </style>
