@@ -8,7 +8,7 @@
             <button class="btn btn-success" @click="saveChanges">Save</button>
         </td>
         <td>
-            <button class="btn btn-secondary" @click="$emit('cancel')">Cancel</button>
+            <button class="btn btn-secondary" @click="cancelChanges">Cancel</button>
         </td>
     </tr>
 </template>
@@ -40,6 +40,10 @@ watch(
 const saveChanges = () => {
     emits('save', localPerson.value);
 };
+
+const cancelChanges = () => {
+    emits('cancel');
+}
 </script>
 
 <style scoped>
