@@ -1,7 +1,6 @@
 <template>
 
-<!--    <tr :class="{ 'd-none': id !== props.editPersonId }">-->
-    <tr>
+    <tr :class="{ 'd-none': id !== props.editPersonId }">
         <th scope="row">{{ id }}</th>
         <td><input type="text" v-model="name" class="form-control"></td>
         <td><input type="number" v-model="age" class="form-control"></td>

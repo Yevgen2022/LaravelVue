@@ -15,12 +15,12 @@
             <template v-for="(person, index) in people" :key="person.id">
 
                 <ShowComponent
+
                     :edit-person-id="editPersonId"
                     :person="person"
                     @get-people="getPeople"
                 ></ShowComponent>
                 <EditComponent
-                    v-if="editPersonId === person.id"
                     :edit-person-id="editPersonId"
                     :person="person"
                     @get-people="getPeople"
@@ -32,7 +32,7 @@
         </table>
     </div>
 </template>
-
+<!--v-if="editPersonId === person.id"-->
 <script setup>
 import {ref, onMounted} from 'vue';
 import axios from 'axios';
